@@ -70,14 +70,16 @@ public class PlayerMecanimAnimationC : MonoBehaviour {
     /// </summary>
     /// <param name="anim"></param>
 	public void  AttackAnimation ( string anim  ){
+        //Debug.LogFormat("--- AttackAnimation, anim:{0}", anim);
 		animator.SetBool(jumpState , false);
         animator.Play(anim);
 	}
 	
 	public void  PlayAnim ( string anim  ){
-		animator.Play(anim);
-		
-	}
+        //Debug.LogFormat("--- PlayAnim, anim:{0}", anim);
+        animator.Play(anim);
+
+    }
 	
 	public void  SetWeaponType ( int val  , string idle  ){
 		animator.SetInteger("weaponType" , val);

@@ -288,10 +288,10 @@ public class StatusC : MonoBehaviour {
 	
 	public void  CalculateStatus (){
 		addAtk = 0;
-		addAtk += atk + buffAtk + weaponAtk;
+		addAtk += atk + buffAtk + weaponAtk; //物理攻击
 		//addDef += def;
 		addMatk = 0;
-		addMatk += matk + buffMatk + weaponMatk;
+		addMatk += matk + buffMatk + weaponMatk; 
 		//addMdef += mdef;
 		int hpPer = maxHealth * addHPpercent / 100;
 		int mpPer = maxMana * addMPpercent / 100;
@@ -532,6 +532,7 @@ public class StatusC : MonoBehaviour {
 	}
 
 	public void  ApplyBuff ( int statId  ,   float dur  ,   int amount  ){
+        Debug.LogFormat("--- ApplyBuff, statId:{0}, duration:{1}. amount:{2}", statId, dur, amount);
 		if(statId == 1){
 			//Increase Defense
 			StartCoroutine(OnBarrier(amount , dur));

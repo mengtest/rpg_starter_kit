@@ -48,6 +48,7 @@ public class BulletStatusC : MonoBehaviour {
 	
 	public void  Setting ( int str  ,   int mag  ,   string tag  ,   GameObject owner  ){
 		//print ("GuSetLaew");
+        //子弹属性
 		if(AttackType == AtkType.Physic){
 			playerAttack = str;
 		}else{
@@ -69,7 +70,8 @@ public class BulletStatusC : MonoBehaviour {
 		if(shooterTag == "Player" && other.tag == "Enemy"){	  
 			Transform dmgPop = Instantiate(Popup, other.transform.position , transform.rotation) as Transform;
 			
-			if(AttackType == AtkType.Physic){
+            //受击者 受到伤害
+			if(AttackType == AtkType.Physic){ 
 				popDamage = other.GetComponent<StatusC>().OnDamage(totalDamage , (int)element);
 			}else{
 				popDamage = other.GetComponent<StatusC>().OnMagicDamage(totalDamage , (int)element);
@@ -79,15 +81,15 @@ public class BulletStatusC : MonoBehaviour {
 	    	}
 			dmgPop.GetComponent<DamagePopupC>().damage = popDamage;	
 			
-			if(hitEffect){
+			if(hitEffect){ //受击特效
 				Instantiate(hitEffect, transform.position , transform.rotation);
 			}
-			if(flinch){
+			if(flinch){ //受击者 是否展示 受击动作
 				Vector3 dir = (other.transform.position - transform.position).normalized;
 				//other.GetComponent<AIsetC>().Flinch(dir);
 				other.SendMessage("Flinch" , dir , SendMessageOptions.DontRequireReceiver);
 			}
-			if(!penetrate){
+			if(!penetrate){ //不穿透则销毁
 				Destroy (gameObject);
 			}
 			//When Enemy Shoot at Player

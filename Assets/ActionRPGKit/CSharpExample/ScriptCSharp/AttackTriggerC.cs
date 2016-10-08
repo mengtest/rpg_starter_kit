@@ -180,16 +180,18 @@ public class AttackTriggerC : MonoBehaviour {
 		//----------------------------
 		//Normal Trigger
 		if (Input.GetButton("Fire1") && Time.time > nextFire && !isCasting) {
-			if(Time.time > (nextFire + 0.5f)){
-				c = 0;
+			if(Time.time > (nextFire + 0.5f))
+            { //如果超过下一段攻击时间（nextFire + 0.5f），则重新开始第一段攻击计 c = 0
+                c = 0;
 			}
 			//Attack Combo
 			if(attackCombo.Length >= 1){
 				conCombo++;
 				//AttackCombo();
-				StartCoroutine(AttackCombo());
+                Debug.LogFormat("--- conCombo+1:{0}, nextFire:{1}", conCombo, nextFire);
+                StartCoroutine(AttackCombo());
 
-			}
+            }
 		}
 		//Magic
 		if (Input.GetButtonDown("Fire2") && Time.time > nextFire && !isCasting && skillPrefab[skillEquip] && !stat.silence) {
@@ -266,7 +268,8 @@ public class AttackTriggerC : MonoBehaviour {
 					
 					wait = mainModel.GetComponent<Animation>()[attackCombo[c].name].length;
 				}else{
-					//For Mecanim Animation
+                    //For Mecanim Animation
+                    Debug.LogFormat("--- Mecanim, anim:{0}, conCombo:{1}", attackCombo[c].name, conCombo);
 					GetComponent<PlayerMecanimAnimationC>().AttackAnimation(attackCombo[c].name);
 					float clip = GetComponent<PlayerMecanimAnimationC>().animator.GetCurrentAnimatorClipInfo(0).Length;
 					wait = clip -0.3f;
@@ -274,12 +277,16 @@ public class AttackTriggerC : MonoBehaviour {
 				
 				yield return new WaitForSeconds(atkDelay1);
 				c++;
-				
-				nextFire = Time.time + attackSpeed;
+                Debug.LogFormat("--- c:{0}", c);
+
+                nextFire = Time.time + attackSpeed; //计算下次攻击时间，用来判定是否是 连击
+
+                //实例化一个 子弹，同时把 攻击参数 传进去
 				bulletShootout = Instantiate(attackPrefab, attackPoint.transform.position , attackPoint.transform.rotation) as Transform;
 				bulletShootout.GetComponent<BulletStatusC>().Setting(str , matk , "Player" , this.gameObject);
 				conCombo -= 1;
-				
+                //Debug.LogFormat("--- conCombo-1:{0}", conCombo);
+
 				if(c >= attackCombo.Length){
 					c = 0;
 					atkDelay = true;
